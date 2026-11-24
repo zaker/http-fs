@@ -17,3 +17,17 @@ at runtime. Rebuild after changing the files. The directory must contain at
 least one embeddable file; Go's `embed` excludes files and directories whose
 names begin with `.` or `_`. See the [embed documentation](https://pkg.go.dev/embed)
 for details.
+
+## Container
+
+Build the image after adding your files to `static/`:
+
+```sh
+docker build -t http-fs .
+docker run --rm -p 8080:8080 http-fs
+```
+
+The image uses a statically linked binary in a `scratch` container and runs as
+an unprivileged user. To change the listen address, pass `-addr` after the
+image name and publish the corresponding port. For external access, listen on
+all interfaces rather than `127.0.0.1`.
