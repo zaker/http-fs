@@ -20,12 +20,19 @@ for details.
 
 ## Container
 
-Build the image after adding your files to `static/`:
+Build the image after adding your files to `static/` (at least one embeddable
+file is required):
 
 ```sh
 docker build -t http-fs .
 docker run --rm -p 8080:8080 http-fs
 ```
+
+The build downloads the server source from a pinned GitHub archive and embeds
+the local `static/` directory. Local Go source changes are not included. To
+use a different GitHub commit, tag, or branch, pass
+`--build-arg HTTP_FS_REF=<ref>` to `docker build`. Use a commit SHA for
+reproducible builds; builds require access to GitHub.
 
 The image uses a statically linked binary in a `scratch` container and runs as
 an unprivileged user. To change the listen address, pass `-addr` after the
